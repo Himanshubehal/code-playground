@@ -5,12 +5,14 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Share from "./pages/Share"
 import ProtectedRoute from "./components/ProtectedRoute"
+import Header from "./components/Header"
+
 
 function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <h1 className="bg-gray-900 text-white p-4 text-xl font-bold">Playground</h1>
+      <Header/>
       <Routes>
         <Route path="/login" element={<Login />}/>
         <Route path="/register" element={<Register />}/>
