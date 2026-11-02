@@ -56,7 +56,7 @@ function Dashboard() {
     async function handleDelete(id) {
         try {
             const response = await fetch(`http://localhost:5000/api/projects/${id}`, {
-                method: "Delete",
+                method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
