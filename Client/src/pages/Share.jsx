@@ -13,6 +13,8 @@ function Share(){
    const { token } = useContext(AuthContext)
    const navigate = useNavigate()
 
+   const [notFound, setNotFound] = useState(false)
+
 
 
     useEffect(() => {
@@ -23,7 +25,10 @@ function Share(){
             
             const data = await response.json()
 
-            if(!response.ok)return
+            if(!response.ok){
+                setNotFound(true)
+                return
+            }
 
             setProject(data)
         } catch (error) {
@@ -56,9 +61,12 @@ function Share(){
             console.error(error)
         }
     }
+       if (notFound){
+        return <p className="text-center text-gray-400 text-2xl mt-10">Project not found</p>
+    }
 
     if(!project){
-        return <p>Loading...</p>
+        return <p className="text-center text-gray-400 text-2xl mt-10">Loading...</p>
     }
 
 
@@ -79,11 +87,12 @@ function Share(){
     `
     
     return (
-        <div>
-
-            <h1>{project.title}</h1>
-            <iframe srcDoc={srcDoc} title="Preview" sandbox="allow-scripts"></iframe>
-            <button onClick={handleFork}>Fork</button>
+        <div className="flex-1 bg-gray-100 p-6">
+            <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl font-bold">{project.title}</h1>
+                <button onClick={handleFork} className="bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-700">Fork</button>
+            </div>
+            <iframe srcDoc={srcDoc} title="Preview" sandbox="allow-scripts" className="w-full h-[70vh] bg-white rounded-lg shadow"></iframe>
         </div>
     )
 }
