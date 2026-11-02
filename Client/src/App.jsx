@@ -9,8 +9,8 @@ import ProtectedRoute from "./components/ProtectedRoute"
 function App() {
 
   return (
-    <>
-      <h1>Playground</h1>
+    <div className="min-h-screen flex flex-col">
+      <h1 className="bg-gray-900 text-white p-4 text-xl font-bold">Playground</h1>
       <Routes>
         <Route path="/login" element={<Login />}/>
         <Route path="/register" element={<Register />}/>
@@ -19,7 +19,7 @@ function App() {
         <Route path="/share/:id" element={<Share />}/>
       </Routes>
 
-    </>
+    </div>
   )
 }
 
