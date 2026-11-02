@@ -87,7 +87,7 @@ function Dashboard() {
 
                 )
             })}
-            <button onClick={handleCreate}>Create Project</button>
+            <button onClick={handleCreate} className="bg-blue-600 text-white px-4 py-2 rounded" >Create Project</button>
             <button onClick={handleLogout}>Logout</button>
         </div>
 
