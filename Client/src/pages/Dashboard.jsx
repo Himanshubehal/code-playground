@@ -83,7 +83,7 @@ function Dashboard() {
             <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
                 <h2 className="text-3xl font-bold text-center mb-2">Your Projects</h2>
                 <p className="text-gray-500 text-center mb-6">Manage your play-ground</p>
-                <div className="flex justify-between items-center mb-6 gap-3">
+                <div className="flex flex-col md:flex-row gap-2 justify-between items-center mb-6 gap-3">
                     <input placeholder="Search project" type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="border flex-1 border-gray-300 rounded px-3 py-1"/>
                     <button onClick={handleCreate} className="bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer">Create Project</button>
                 </div>
@@ -91,11 +91,11 @@ function Dashboard() {
                     {filteredProjects.map((project) => {
                         return (
                             <div key={project._id} className="flex justify-between items-center bg-white p-4 rounded shadow">
-                                <div>
-                                    <p className="text-gray-900 font-semibold"><Link to={`/editor/${project._id}`}>{project.title}</Link></p>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-gray-900 font-semibold truncate"><Link to={`/editor/${project._id}`}>{project.title}</Link></p>
                                     <p className="text-gray-600">Created{new Date(project.createdAt).toLocaleString()}</p>
                                 </div>
-                                <button onClick={() => handleDelete(project._id)} className="bg-red-50 text-red-600 hover:bg-red-100 p-2 cursor-pointer rounded-lg"><Trash2 size={18}/></button>
+                                <button onClick={() => handleDelete(project._id)} className="shrink-0 bg-red-50 text-red-600 hover:bg-red-100 p-2 cursor-pointer rounded-lg"><Trash2 size={18}/></button>
                             </div>
                         )
                     })}

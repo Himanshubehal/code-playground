@@ -13,10 +13,9 @@ function Editor() {
     const [html, setHtml] = useState("")
     const [css, setCss] = useState("")
     const [js, setJs] = useState("")
-    const [shareLink, setShareLink] = useState("")
     const [saved, setSaved] = useState(false)
 
-    const [copied, setCopied ] = useState(false)
+    const [copied, setCopied] = useState(false)
 
     const { token } = useContext(AuthContext)
 
@@ -82,7 +81,7 @@ function Editor() {
             setSaved(true)
             setTimeout(() => {
                 setSaved(false)
-            },2000)
+            }, 2000)
         } catch (error) {
             console.error(error)
         }
@@ -100,35 +99,31 @@ function Editor() {
                 body: JSON.stringify({ isPublic: true })
             })
             if (!response.ok) return
-            setShareLink(`${window.location.origin}/share/${id}`)
+            const link = `${window.location.origin}/share/${id}`
+            await navigator.clipboard.writeText(link)
+            setCopied(true)
+            setTimeout(() => {
+            setCopied(false)
+        }, 2000)
 
         } catch (error) {
             console.error(error)
         }
     }
 
-    async function handleCopy() {
-        navigator.clipboard.writeText(shareLink)
-        setCopied(true)
-        setTimeout(() => {
-            setCopied(false)
-        },2000)
-    }
 
 
     return (
-        <div className="flex-1 bg-gray-100 flex flex-col gap-4">
+        <div className="flex-1 bg-gray-100 p-6 flex flex-col gap-4">
             <div className="flex justify-between items-center">
-                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="text-2xl font-bold border  border-transparent focus:border-gray-400 outline-none" />
-                <div className="flex">
-                    {shareLink && (<div> <p className="text-sm text-gray-700">{shareLink}</p> <button onClick={handleCopy} className="bg-gray-800 text-white text-sm px-3 py-1 rounded cursor-pointer">{copied === true ? "Copied" : "Copy"}</button></div>)}
-                </div>
+                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="flex-1 max-w-md truncate min-w-0 text-2xl font-bold border  border-transparent focus:border-gray-400 outline-none" />
+
                 <div className="flex gap-2">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer mt-2 mr-2" onClick={handleSave}>{saved === true ? "Saved" : "Save"}</button>
-                    <button onClick={handleShare} className="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded-lg cursor-pointer mt-2 mr-2">Share</button>
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer " onClick={handleSave}>{saved === true ? "Saved" : "Save"}</button>
+                    <button onClick={handleShare} className="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded-lg cursor-pointer">{copied === true ? "Link copied" : "Share"}</button>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1">
                         <label htmlFor="html" className="text-sm font-semibold text-gray-700">HTML</label>
@@ -136,18 +131,19 @@ function Editor() {
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="css" className="text-sm font-semibold text-gray-700">CSS</label>
-                        <CodeMirror value={css} onChange={(value) => setCss(value)} extensions={[cssLang()]} height="20vh"/>
+                        <CodeMirror value={css} onChange={(value) => setCss(value)} extensions={[cssLang()]} height="20vh" />
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="js" className="text-sm font-semibold text-gray-700">JS</label>
-                        <CodeMirror value={js} onChange={(value) => setJs(value)} extensions={[javascript()]} height="20vh"/>
+                        <CodeMirror value={js} onChange={(value) => setJs(value)} extensions={[javascript()]} height="20vh" />
                     </div>
                 </div>
                 <div className="flex flex-col gap-1">
                     <h2 className="text-sm font-semibold text-gray-700">Preview</h2>
-                    <iframe srcDoc={srcDoc} title="preview" sandbox="allow-scripts" className="w-full flex-1 bg-white rounded-lg"></iframe>
+                    <iframe srcDoc={srcDoc} title="preview" sandbox="allow-scripts" className="w-full flex-1 min-h-[300px] bg-white rounded-lg"></iframe>
                 </div>
             </div>
+            
         </div>
     )
 }
