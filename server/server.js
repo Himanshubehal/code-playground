@@ -11,7 +11,7 @@ import projectRoutes from "./routes/projects.js"
 dns.setServers(["8.8.8.8"])
 
 const app = express()
-app.use(cors())
+app.use(cors({origin: "https://code-playground-indol-sigma.vercel.app/"}))
 app.use(express.json())
 const PORT = process.env.PORT || 5000
 
