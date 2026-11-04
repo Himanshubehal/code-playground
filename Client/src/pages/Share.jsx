@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import {  useNavigate, useParams,  } from "react-router-dom"
 import { AuthContext } from "../context/AuthContext"
 import { API_URL } from "../config"
 
@@ -15,6 +15,7 @@ function Share(){
    const navigate = useNavigate()
 
    const [notFound, setNotFound] = useState(false)
+
 
 
 
@@ -44,7 +45,7 @@ function Share(){
     async function handleFork(){
 
         if(!token){
-           return navigate("/login")
+           return navigate("/login", {state: {from: location.pathname}})
         }
         try {
             const response = await fetch(`${API_URL}/api/projects/${id}/fork`, {
