@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
+import { API_URL } from "../config"
 
 function Register(){
 
@@ -17,7 +18,7 @@ function Register(){
         setError("")
 
         try {
-            const response = await fetch("http://localhost:5000/api/auth/register", {
+            const response = await fetch(`${API_URL}/api/auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json"

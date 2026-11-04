@@ -1,6 +1,9 @@
 import express from "express"
 import protect from "../middleware/protect.js"
 import Project from "../models/Project.js"
+import mongoose from "mongoose"
+
+
 
 const router = express.Router()
 
@@ -25,6 +28,11 @@ router.get("/", protect, async (req, res) => {
 
 
 router.get("/:id", protect, async (req, res) => {
+
+    if(!mongoose.isValidObjectId(req.params.id)){
+        return res.status(404).json({message: "Project not found"})
+    }
+
     const project = await Project.findById(req.params.id)
     if(!project){
         return res.status(404).json({message: "Project not found"})
@@ -37,6 +45,11 @@ router.get("/:id", protect, async (req, res) => {
 
 
 router.put("/:id", protect, async(req, res) => {
+    
+    if(!mongoose.isValidObjectId(req.params.id)){
+        return res.status(404).json({message: "Project not found"})
+    }
+
     const project = await Project.findById(req.params.id)
 
     if(!project){
@@ -70,6 +83,11 @@ router.put("/:id", protect, async(req, res) => {
 
 
 router.delete("/:id", protect, async (req, res) => {
+    
+    if(!mongoose.isValidObjectId(req.params.id)){
+        return res.status(404).json({message: "Project not found"})
+    }
+
     const project = await Project.findById(req.params.id)
     if(!project){
         return res.status(404).json({message: "Project not found"})
@@ -85,6 +103,11 @@ router.delete("/:id", protect, async (req, res) => {
 
 
 router.get("/public/:id", async (req, res) => {
+
+    if(!mongoose.isValidObjectId(req.params.id)){
+        return res.status(404).json({message: "Project not found"})
+    }
+
     const project = await Project.findById(req.params.id)
 
     if(!project || project.isPublic === false){
@@ -95,6 +118,11 @@ router.get("/public/:id", async (req, res) => {
 
 
 router.post("/:id/fork", protect, async (req, res) => {
+
+    if(!mongoose.isValidObjectId(req.params.id)){
+        return res.status(404).json({message: "Project not found"})
+    }
+
     const project = await Project.findById(req.params.id)
     if(!project || (!project.isPublic && !project.owner.equals(req.user._id))){
         return res.status(404).json({message : "Project not found"})

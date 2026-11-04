@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { Trash2 } from "lucide-react"
-
+import { API_URL } from "../config"
 
 function Dashboard() {
     const [projects, setProjects] = useState([])
@@ -18,7 +18,7 @@ function Dashboard() {
         async function loadProjects() {
 
             try {
-                const response = await fetch("http://localhost:5000/api/projects", {
+                const response = await fetch(`${API_URL}/api/projects`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -37,7 +37,7 @@ function Dashboard() {
 
     async function handleCreate() {
         try {
-            const response = await fetch("http://localhost:5000/api/projects", {
+            const response = await fetch(`${API_URL}/api/projects`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -57,7 +57,7 @@ function Dashboard() {
 
     async function handleDelete(id) {
         try {
-            const response = await fetch(`http://localhost:5000/api/projects/${id}`, {
+            const response = await fetch(`${API_URL}/api/projects/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -93,7 +93,7 @@ function Dashboard() {
                             <div key={project._id} className="flex justify-between items-center bg-white p-4 rounded shadow">
                                 <div className="flex-1 min-w-0">
                                     <p className="text-gray-900 font-semibold truncate"><Link to={`/editor/${project._id}`}>{project.title}</Link></p>
-                                    <p className="text-gray-600">Created{new Date(project.createdAt).toLocaleString()}</p>
+                                    <p className="text-gray-600">Created {new Date(project.createdAt).toLocaleString()}</p>
                                 </div>
                                 <button onClick={() => handleDelete(project._id)} className="shrink-0 bg-red-50 text-red-600 hover:bg-red-100 p-2 cursor-pointer rounded-lg"><Trash2 size={18}/></button>
                             </div>

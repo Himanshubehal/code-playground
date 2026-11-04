@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { useEffect } from "react";
-
+import { API_URL } from "../config";
 
 
 const AuthContext = createContext(null)
@@ -23,17 +23,6 @@ function AuthProvider({ children }) {
         localStorage.removeItem("token")
     }
 
-   const authFetch = (url, options = {}) => {
-    return fetch(url, {
-        ...options,
-        headers: {
-            ...options.headers,
-            Authorization: `Bearer ${token}`
-        }
-    })
-   }
-
-
     useEffect(() => {
         if (!token) return
 
@@ -41,7 +30,7 @@ function AuthProvider({ children }) {
 
             try {
                 const response = await fetch(
-                "http://localhost:5000/api/auth/me", {
+                    `${API_URL}/api/auth/me`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             if(!response.ok){
@@ -57,7 +46,7 @@ function AuthProvider({ children }) {
         fetchUser()
     }, [token])
 
-    return <AuthContext.Provider value={{ token, user, login, logout, authFetch }} >
+    return <AuthContext.Provider value={{ token, user, login, logout }} >
         {children}
     </AuthContext.Provider>
 }

@@ -5,6 +5,7 @@ import CodeMirror from "@uiw/react-codemirror"
 import { html as htmlLang } from "@codemirror/lang-html"
 import { css as cssLang } from "@codemirror/lang-css"
 import { javascript } from "@codemirror/lang-javascript"
+import { API_URL } from "../config"
 
 function Editor() {
 
@@ -24,13 +25,12 @@ function Editor() {
 
         async function loadProject() {
             try {
-                const response = await fetch(`http://localhost:5000/api/projects/${id}`, {
+                const response = await fetch(`${API_URL}/api/projects/${id}`, {
                     headers: {
                         "Authorization": `Bearer ${token}`
                     }
                 })
                 const data = await response.json()
-                console.log(data)
 
                 if (!response.ok) return
 
@@ -69,7 +69,7 @@ function Editor() {
 
     async function handleSave() {
         try {
-            const response = await fetch(`http://localhost:5000/api/projects/${id}`, {
+            const response = await fetch(`${API_URL}/api/projects/${id}`, {
                 method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -90,7 +90,7 @@ function Editor() {
 
     async function handleShare() {
         try {
-            const response = await fetch(`http://localhost:5000/api/projects/${id}`, {
+            const response = await fetch(`${API_URL}/api/projects/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
